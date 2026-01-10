@@ -51,6 +51,7 @@
                     <th class="px-4 py-2">Keterangan</th>
                     <th class="px-4 py-2">Debit</th>
                     <th class="px-4 py-2">Kredit</th>
+                    <th class="px-4 py-2">Bukti</th>
                     <th colspan="2" class="px-4 py-2">Action</th>
                 </tr>
             </thead>
@@ -61,13 +62,20 @@
                         <td class="px-4 py-2">{{ $t->keterangan }}</td>
                         <td class="px-4 py-2">{{ number_format($t->debit) }}</td>
                         <td class="px-4 py-2">{{ number_format($t->kredit) }}</td>
+                        <td class="px-4 py-2 text-center">
+                            @if ($t->bukti_pembayaran)
+                                <img src="{{ asset('bukti/' . $t->bukti_pembayaran) }}" class="w-16 h-16 object-cover rounded mx-auto cursor-pointer">
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td class="px-4 py-2 text-center"><a href="/transaksi/{{ $t->id }}/edit"
                                 class="text-blue-600">Edit</a>
                         </td>
                         <td class="border-y px-4 py-2 text-center">
                             <form action="/transaksi/{{ $t->id }}" method="POST"
                                 onsubmit="return confirm('Yakin mau hapus?')"> @csrf @method('DELETE')
-                                <button class="text-red-600 hover:cursor-pointer">Hapus</button>
+                                <button class="text-red-600 hover:cursor-pointer hover:underline">Hapus</button>
                             </form>
                         </td>
                     </tr>

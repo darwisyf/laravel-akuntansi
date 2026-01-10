@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
-
+use Illuminate\Support\Facades\File;
 class TransaksiController extends Controller
 {
     public function store(Request $request) {
@@ -13,8 +13,16 @@ class TransaksiController extends Controller
             'tanggal'=> 'required|date',
             'keterangan'=> 'required',
             'debit'=> 'nullable|numeric',
-            'kredit'=> 'nullable|numeric'
+            'kredit'=> 'nullable|numeric',
+            'bukti_pembayaran'=> 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        $namaFile = null;
+
+        if($request->hasFile('bukti_pembayaran')){
+            $namaFile = time() . '.' . $request->bukti_pembayaran->extension();
+            $request->bukti_pembayaran->move(public_path('bukti'), $namaFile);
+        }
 
         Transaksi::create([
             'user_id'=> auth()->id(),
@@ -22,6 +30,7 @@ class TransaksiController extends Controller
             'keterangan'=> $request -> keterangan,
             'debit'=> $request -> debit ?? 0,
             'kredit'=> $request -> kredit ?? 0,
+            'bukti_pembayaran'=> $namaFile,
         ]);
 
         return redirect('/transaksi')->with('success','Transaksi berhasil disimpan');
@@ -72,7 +81,16 @@ class TransaksiController extends Controller
 
     public function destroy($id) {
         $transaksis = Transaksi::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
-        $transaksis -> delete();
+
+        if($transaksis->bukti_pembayaran) {
+            $path = public_path('bukti/' . $transaksis->bukti_pembayaran);
+
+            if(file_exists($path)) {
+                File::delete($path);
+            };
+        }
+
+        $transaksis->delete();
 
         return redirect('/transaksi-list')->with('success','Transaksi berhasil dihapus');
     }

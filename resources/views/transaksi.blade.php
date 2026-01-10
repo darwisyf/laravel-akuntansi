@@ -9,7 +9,7 @@
                 Input Transaksi
             </h1>
 
-            <form method="POST" action="/transaksi" class="space-y-4"> @csrf
+            <form method="POST" action="/transaksi" class="space-y-4" enctype="multipart/form-data"> @csrf
                 <div>
                     <label class="block text-sm font-medium">Tanggal</label>
                     <input type="date" name="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="w-full mt-1 rounded-md border-gray-300 shadow-sm py-1 px-1">
@@ -26,6 +26,10 @@
                 <div>
                     <label class="block text-sm font-medium">Kredit</label>
                     <input type="number" name="kredit" class="w-full mt-1 rounded-md border-gray-300 shadow-sm py-1 px-1">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Bukti Pembayaran</label>
+                    <input type="file" name="bukti_pembayaran" accept="image/*" class="w-full mt-1 rounded-md border-gray-300 shadow-sm py-1 px-1">
                 </div>
                 <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-700">Simpan
                     Transaksi</button>
