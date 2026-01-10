@@ -12,7 +12,7 @@
             <form method="POST" action="/transaksi" class="space-y-4"> @csrf
                 <div>
                     <label class="block text-sm font-medium">Tanggal</label>
-                    <input type="date" name="tanggal" class="w-full mt-1 rounded-md border-gray-300 shadow-sm py-1 px-1">
+                    <input type="date" name="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="w-full mt-1 rounded-md border-gray-300 shadow-sm py-1 px-1">
                 </div>
                 <div>
                     <label class="block text-sm font-medium">Keterangan</label>

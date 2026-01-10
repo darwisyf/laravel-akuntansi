@@ -35,6 +35,13 @@
         </div>
 
         <button class="bg-blue-600 text-white px-4 py-2 rounded">Filter</button>
+
+        <form method="GET" action="/transaksi-list" class="flex gap-4 mb-6">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari keterangan..." class="border px-3 py-2 rounded w-64">
+            <button class="bg-gray-700 text-white px-4 py-2 rounded">
+                Cari
+            </button>
+        </form>
     </form>
 
         <table class="min-w-full bg-white rounded shadow">
@@ -73,4 +80,7 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-4">
+            {{ $transaksis->links() }}
+        </div>
 @endsection

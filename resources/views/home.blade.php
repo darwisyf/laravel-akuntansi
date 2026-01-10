@@ -8,13 +8,13 @@
             <h1 class="text-2xl my-2">Selamat datang di Aplikasi Akuntansi</h1>
             <p>by Wishy</p>
         </div>
-        @guest    
-        <div class="w-full flex justify-center items-center">
-            <a href="/register"
-                class="bg-blue-500 mx-2 border px-3 py-2 shadow-md rounded-md text-white hover:bg-blue-800">Register</a>
-            <a href="/login"
-                class="bg-blue-500 mx-2 border px-3 py-2 shadow-md rounded-md text-white hover:bg-blue-800">Login</a>
-        </div>
+        @guest
+            <div class="w-full flex justify-center items-center">
+                <a href="/register"
+                    class="bg-gray-700 mx-2 border px-3 py-2 shadow-md rounded-md text-white hover:bg-gray-800">Register</a>
+                <a href="/login"
+                    class="bg-gray-700 mx-2 border px-3 py-2 shadow-md rounded-md text-white hover:bg-gray-800">Login</a>
+            </div>
         @endguest
     </div>
 @endsection

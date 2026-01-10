@@ -31,12 +31,20 @@ class TransaksiController extends Controller
 
         $query = Transaksi::where('user_id', auth()->id());
 
+        // Search
+        if($request->search) {
+            $query->where('keterangan', 'like','%'. $request->search .'%');
+        }
+
+        // Filter Tanggal
         if($request->from && $request->to) {
             $query->whereBetween('tanggal', [$request->from, $request->to]);
         }
 
-        $transaksis = $query->orderBy('tanggal', 'asc')->get();
+        // Pagination
+        $transaksis = $query->orderBy('tanggal','desc')->paginate(10)->withQueryString();
 
+        // Hitung Total Debit, Kredit dan Saldo
         $totalDebit = $transaksis->sum('debit');
         $totalKredit = $transaksis->sum('kredit');
         $saldo = $totalDebit - $totalKredit;
