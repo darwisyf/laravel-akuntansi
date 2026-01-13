@@ -61,13 +61,44 @@ class TransaksiController extends Controller
         return view('transaksi-index', compact('transaksis', 'totalDebit','totalKredit', 'saldo'));
     }
 
-    public function edit($id) {
+    public function edit($id) {        
+
         $transaksis = Transaksi::where('id',$id)->where('user_id',auth()->id())->firstOrFail();
+
+        if ($transaksis->user_id !== auth()->id()) {
+            abort(403);
+        }
+
         return view('transaksi-edit', compact('transaksis'));
     }
 
     public function update(Request $request, $id) {
         $transaksis = Transaksi::where('id',$id)->where('user_id',auth()->id())->firstOrFail();
+
+        if ($transaksis->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $request ->validate([
+            'tanggal'=> 'required|date',
+            'keterangan'=> 'required',
+            'debit'=> 'nullable|numeric',
+            'kredit'=> 'nullable|numeric',
+            'bukti_pembayaran'=> 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('bukti_pembayaran')) {
+            if ($transaksis->bukti_pembayaran) {
+                $oldPath = public_path('bukti/'. $transaksis->bukti_pembayaran);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+            }
+            $namaFile = uniqid() . '.' . $request->bukti_pembayaran->extension();
+            $request->bukti_pembayaran->move(public_path('bukti'), $namaFile);
+            $transaksis->bukti_pembayaran = $namaFile;
+        }
+        
 
         $transaksis -> update([
             'tanggal'=> $request -> tanggal,

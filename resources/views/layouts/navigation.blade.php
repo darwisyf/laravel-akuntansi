@@ -1,5 +1,5 @@
 @auth
-    <nav class="bg-white shadow px-6 py-4 flex justify-between items-center fixed w-full">
+    <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
 
         <div class="text-xl font-bold w-[50%]">
             Aplikasi Akuntansi
