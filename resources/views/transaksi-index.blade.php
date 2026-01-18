@@ -75,7 +75,8 @@
 
                                     <div class="bg-white p-4 rounded max-w-xl">
                                         <img src="{{ asset('bukti/' . $t->bukti_pembayaran) }}" class="max-h-[80vh] rounded">
-                                        <button type="button" @click="open = false" class="mt-4 bg-red-600 text-white px-4 py-2 rounded w-full">Tutup</button>
+                                        <button type="button" @click="open = false"
+                                            class="mt-4 bg-red-600 text-white px-4 py-2 rounded w-full">Tutup</button>
                                     </div>
                                 </div>
                             </div>
@@ -99,6 +100,8 @@
             @endforelse
         </tbody>
     </table>
+    <a href="/transaksi-export-pdf"
+        class="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded mt-4 inline-block">Export to PDF</a>
     <div class="mt-4">
         {{ $transaksis->links() }}
     </div>

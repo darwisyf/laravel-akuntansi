@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\Facade\Pdf;
 class TransaksiController extends Controller
 {
     public function store(Request $request) {
@@ -124,5 +125,17 @@ class TransaksiController extends Controller
         $transaksis->delete();
 
         return redirect('/transaksi-list')->with('success','Transaksi berhasil dihapus');
+    }
+
+    public function exportPdf() {
+        $transaksis = Transaksi::where('user_id', auth()->id())->orderBy('tanggal', 'asc')->get();
+
+        $totalDebit = $transaksis->sum('debit'); 
+        $totalKredit = $transaksis->sum('kredit');
+        $saldo = $totalDebit + $totalKredit;
+        
+        $pdf = Pdf::loadView('transaksi-pdf', compact('transaksis', 'totalDebit', 'totalKredit', 'saldo'))->setPaper('A4','portrait');
+
+        return $pdf->download('laporan-transaksi.pdf');
     }
 }

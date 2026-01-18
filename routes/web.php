@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/transaksi', [TransaksiController::class, 'store']);
     Route::put('/transaksi/{id}', [TransaksiController::class, 'update']);
     Route::delete('/transaksi/{id}', [TransaksiController::class,'destroy']);
+    Route::get('/transaksi-export-pdf', [TransaksiController::class,'exportPdf']);
 });
 
 Route::post('/logout', [AuthenticatedSessionController::class,'destroy'])->name('logout');
